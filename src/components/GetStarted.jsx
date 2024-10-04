@@ -41,16 +41,15 @@ const GetStarted = () => {
 			referralCode: referralCode || null,
 		};
 		setUserData(updatedUserData);
-		console.log(updatedUserData);
-		// if (isLoggedInTg && updatedUserData) {
-		// 	try {
-		// 		// Dispatch the updated user data to the backend
-		// 		await dispatch(createUser(updatedUserData));
-		// 		navigate("/"); // Redirect to the home page after successful login or signup
-		// 	} catch (error) {
-		// 		console.error("Error logging in:", error);
-		// 	}
-		// }
+		if (isLoggedInTg && updatedUserData) {
+			try {
+				// Dispatch the updated user data to the backend
+				await dispatch(createUser(updatedUserData));
+				navigate("/"); // Redirect to the home page after successful login or signup
+			} catch (error) {
+				console.error("Error logging in:", error);
+			}
+		}
 	};
 
 	return (
