@@ -7,9 +7,10 @@ const ProtectedRoute = ({ children }) => {
 	const queryParams = new URLSearchParams(location.search);
 	const referralCode = queryParams.get("tgWebAppStartParam");
 
-	const { token } = useSelector((state) => state.auth);
+	const { isAuthenticated } = useSelector((state) => state.user);
+
 	// If user is not logged in, redirect to /startapp
-	if (!token) {
+	if (!isAuthenticated) {
 		// If referral code exists, append it to the redirect URL
 		const redirectURL = referralCode ? `/startapp?startapp=${referralCode}` : "/startapp";
 
