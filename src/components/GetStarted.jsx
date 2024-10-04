@@ -46,7 +46,6 @@ const GetStarted = () => {
 		if (isLoggedInTg && updatedUserData) {
 			try {
 				// Dispatch the updated user data to the backend
-				console.log(updatedUserData);
 				await dispatch(createUser(updatedUserData));
 				navigate("/"); // Redirect to the home page after successful login or signup
 			} catch (error) {
