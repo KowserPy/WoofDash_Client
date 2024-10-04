@@ -53,7 +53,6 @@ const userSlice = createSlice({
 				state.message = null;
 			})
 			.addCase(createUser.fulfilled, (state, action) => {
-				state.user = action.payload;
 				state.isAuthenticated = true;
 				state.isLoading = false;
 				state.isError = false;
@@ -70,7 +69,7 @@ const userSlice = createSlice({
 				state.message = null;
 			})
 			.addCase(getProfile.fulfilled, (state, action) => {
-				state.user = action.payload;
+				state.user = action.payload.user;
 				state.isAuthenticated = true;
 				state.isLoading = false;
 				state.isError = false;

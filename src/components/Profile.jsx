@@ -5,12 +5,17 @@ import woofImg from "../assets/woof.png";
 
 const Profile = () => {
 	const dispatch = useDispatch(); // Initialize dispatch
-	const { totalPoints, taskPoints, referralPoints } = useSelector((state) => state.user); // Assuming these values come from user slice
+	const { user, isLoading, isError, message } = useSelector((state) => state.user); // Assuming these values come from user slice
 
 	// Fetch profile data on component load
 	useEffect(() => {
 		dispatch(getProfile());
 	}, [dispatch]); // Dispatch getProfile on component mount
+
+	// Safely access profile data
+	const totalPoints = user?.points?.totalPoints || 0;
+	const taskPoints = user?.points?.taskPoints || 0;
+	const referralPoints = user?.points?.referralPoints || 0;
 
 	return (
 		<div className="bg-gradient-to-r from-blue-200 to-cyan-200 p-5 rounded-lg shadow-lg w-full max-w-md">
