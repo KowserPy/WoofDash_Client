@@ -4,7 +4,10 @@ import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
 	useEffect(() => {
-		console.log(window.location);
+		const location = useLocation();
+		const queryParams = new URLSearchParams(location.search);
+		console.log(location);
+		console.log(queryParams);
 	});
 	const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
