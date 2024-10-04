@@ -32,29 +32,25 @@ const GetStarted = () => {
 	// Handle sending data with the referral code
 	const handleSendData = async () => {
 		const location = useLocation();
-		console.log("location", location);
 		const queryParams = new URLSearchParams(location.search);
 		console.log(queryParams);
 		const referralCode = queryParams.get("startapp");
 		console.log(referralCode);
-
-		// Merge referralCode into userData
-		const updatedUserData = {
-			...userData,
-			referralCode: referralCode || null,
-		};
-
-		setUserData(updatedUserData);
-
-		if (isLoggedInTg && updatedUserData) {
-			try {
-				// Dispatch the updated user data to the backend
-				await dispatch(createUser(updatedUserData));
-				navigate("/"); // Redirect to the home page after successful login or signup
-			} catch (error) {
-				console.error("Error logging in:", error);
-			}
-		}
+		// // Merge referralCode into userData
+		// const updatedUserData = {
+		// 	...userData,
+		// 	referralCode: referralCode || null,
+		// };
+		// setUserData(updatedUserData);
+		// if (isLoggedInTg && updatedUserData) {
+		// 	try {
+		// 		// Dispatch the updated user data to the backend
+		// 		await dispatch(createUser(updatedUserData));
+		// 		navigate("/"); // Redirect to the home page after successful login or signup
+		// 	} catch (error) {
+		// 		console.error("Error logging in:", error);
+		// 	}
+		// }
 	};
 
 	return (
