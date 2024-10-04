@@ -47,7 +47,7 @@ const GetStarted = () => {
 			try {
 				// Dispatch the updated user data to the backend
 				await dispatch(createUser(updatedUserData));
-				navigate("/home"); // Redirect to the home page after successful login or signup
+				navigate("/"); // Redirect to the home page after successful login or signup
 			} catch (error) {
 				console.error("Error logging in:", error);
 			}

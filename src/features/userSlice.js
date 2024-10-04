@@ -1,10 +1,9 @@
-// src/features/userSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { createUserApi, getProfileApi } from "../api/userApi";
 
 const initialState = {
-	user: null,
-	isAuthenticated: false,
+	user: JSON.parse(localStorage.getItem("user")) || null, // Get user from localStorage
+	isAuthenticated: !!localStorage.getItem("user"), // Check if user exists
 	isError: false,
 	isLoading: false,
 	message: null,
@@ -15,6 +14,7 @@ export const createUser = createAsyncThunk("user/createUser", async (userData, {
 	try {
 		const data = await createUserApi(userData); // Use the API service here
 		console.log(data);
+		localStorage.setItem("user", JSON.stringify(data)); // Store user in localStorage
 		return data;
 	} catch (error) {
 		return rejectWithValue(error);
@@ -25,6 +25,7 @@ export const createUser = createAsyncThunk("user/createUser", async (userData, {
 export const getProfile = createAsyncThunk("user/getProfile", async (_, { rejectWithValue }) => {
 	try {
 		const data = await getProfileApi(); // Use the API service here
+		localStorage.setItem("user", JSON.stringify(data)); // Update user in localStorage
 		return data;
 	} catch (error) {
 		return rejectWithValue(error);
@@ -41,6 +42,7 @@ const userSlice = createSlice({
 			state.isError = false;
 			state.isLoading = false;
 			state.message = "Successfully logged out";
+			localStorage.removeItem("user"); // Clear user from localStorage
 		},
 	},
 	extraReducers: (builder) => {
