@@ -12,13 +12,13 @@ const ProtectedRoute = ({ children }) => {
 	console.log("referralCode", referralCode);
 	const { isAuthenticated } = useSelector((state) => state.user);
 
-	// If user is not logged in, redirect to /startapp
-	if (!isAuthenticated) {
-		// If referral code exists, append it to the redirect URL
-		const redirectURL = referralCode ? `/startapp?reff=${referralCode}` : "/startapp";
+	// // If user is not logged in, redirect to /startapp
+	// if (!isAuthenticated) {
+	// 	// If referral code exists, append it to the redirect URL
+	// 	const redirectURL = referralCode ? `/startapp?reff=${referralCode}` : "/startapp";
 
-		return <Navigate to={redirectURL} />;
-	}
+	// 	return <Navigate to={redirectURL} />;
+	// }
 	return children;
 };
 
