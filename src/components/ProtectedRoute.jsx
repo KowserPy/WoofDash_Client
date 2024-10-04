@@ -3,22 +3,18 @@ import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-	const { isAuthenticated } = useSelector((state) => state.user);
+	const location = useLocation();
+	const queryParams = new URLSearchParams(location.search);
+	const referralCode = queryParams.get("tgWebAppStartParam");
 
-	if (!isAuthenticated) {
-		const location = useLocation();
-		console.log(location);
+	const { token } = useSelector((state) => state.auth);
+	// If user is not logged in, redirect to /startapp
+	if (!token) {
+		// If referral code exists, append it to the redirect URL
+		const redirectURL = referralCode ? `/startapp?startapp=${referralCode}` : "/startapp";
 
-		// Get the referral code from the URL if it exists
-		const searchParams = new URLSearchParams(location.search);
-		console.log(searchParams);
-		const referralCode = 5446;
-		if (referralCode) {
-			console.log(location);
-		}
+		return <Navigate to={redirectURL} />;
 	}
-
-	// If the user is authenticated, render the children components (protected content)
 	return children;
 };
 

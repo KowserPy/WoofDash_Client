@@ -26,7 +26,7 @@ const router = createBrowserRouter([
 		],
 	},
 	{
-		path: "/getStarted",
+		path: "/startapp",
 		element: <GetStarted />,
 	},
 	{ path: "*", element: <NotFound /> },
