@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
 	if (!isAuthenticated) {
 		// If the user is not authenticated and there's a referral code, redirect with the referral code
 		if (referralCode) {
-			return <Navigate to={`/startapp?ref=${referralCode}`} />;
+			return <Navigate to={`/getStarted?ref=${referralCode}`} />;
 		} else {
 			// Otherwise, redirect to /startapp without the code
 			return <Navigate to="/getStarted" />;
