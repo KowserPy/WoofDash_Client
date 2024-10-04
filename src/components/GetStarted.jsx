@@ -34,7 +34,6 @@ const GetStarted = () => {
 	const handleSendData = async () => {
 		const queryParams = new URLSearchParams(location.search);
 		const referralCode = queryParams.get("startapp");
-		console.log(referralCode);
 		// Merge referralCode into userData
 		const updatedUserData = {
 			...userData,
