@@ -4,16 +4,15 @@ import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
 	const { isAuthenticated } = useSelector((state) => state.user);
-	const location = useLocation();
-	console.log(location);
-
-	// Get the referral code from the URL if it exists
-	const searchParams = new URLSearchParams(location.search);
-	console.log(searchParams);
-	const referralCode = 5446;
 
 	if (!isAuthenticated) {
-		// If the user is not authenticated and there's a referral code, redirect with the referral code
+		const location = useLocation();
+		console.log(location);
+
+		// Get the referral code from the URL if it exists
+		const searchParams = new URLSearchParams(location.search);
+		console.log(searchParams);
+		const referralCode = 5446;
 		if (referralCode) {
 			return <Navigate to={`/getStarted?ref=${referralCode}`} />;
 		} else {
