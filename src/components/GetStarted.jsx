@@ -33,15 +33,15 @@ const GetStarted = () => {
 	// Handle sending data with the referral code
 	const handleSendData = async () => {
 		const queryParams = new URLSearchParams(location.search);
-		console.log(queryParams);
 		const referralCode = queryParams.get("startapp");
 		console.log(referralCode);
-		// // Merge referralCode into userData
-		// const updatedUserData = {
-		// 	...userData,
-		// 	referralCode: referralCode || null,
-		// };
-		// setUserData(updatedUserData);
+		// Merge referralCode into userData
+		const updatedUserData = {
+			...userData,
+			referralCode: referralCode || null,
+		};
+		setUserData(updatedUserData);
+		console.log(updatedUserData);
 		// if (isLoggedInTg && updatedUserData) {
 		// 	try {
 		// 		// Dispatch the updated user data to the backend
