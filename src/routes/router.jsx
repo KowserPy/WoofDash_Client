@@ -4,6 +4,7 @@ import Task from "../pages/Task";
 import Home from "../pages/Home";
 import App from "../App";
 import GetStarted from "../components/GetStarted";
+import Friends from "../pages/Friends";
 
 const router = createBrowserRouter([
 	{
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
 			{
 				path: "/tasks",
 				element: <Task />,
+			},
+			{
+				path: "/friends",
+				element: <Friends />,
 			},
 		],
 	},
