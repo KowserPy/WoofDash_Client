@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children }) => {
 			return <Navigate to={`/startapp?ref=${referralCode}`} />;
 		} else {
 			// Otherwise, redirect to /startapp without the code
-			return <Navigate to="/startappss" />;
+			return <Navigate to="/getStarted" />;
 		}
 	}
 
