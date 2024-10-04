@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { createUser } from "../features/userSlice";
 
 const GetStarted = () => {
+	const location = useLocation();
 	const [isLoggedInTg, setLoggedInTg] = useState(false);
 	const [userData, setUserData] = useState({});
 	const dispatch = useDispatch();
@@ -31,7 +32,6 @@ const GetStarted = () => {
 
 	// Handle sending data with the referral code
 	const handleSendData = async () => {
-		const location = useLocation();
 		const queryParams = new URLSearchParams(location.search);
 		console.log(queryParams);
 		const referralCode = queryParams.get("startapp");
