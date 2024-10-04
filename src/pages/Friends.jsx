@@ -13,10 +13,7 @@ const Friends = () => {
 	};
 
 	const handleCopyLinkClick = () => {
-		console.log(user);
 		const myReferralCode = user?.referralCode;
-		console.log(myReferralCode);
-
 		const url = `http://t.me/WoofDash_bot/start?startapp=${myReferralCode}`;
 
 		// Try to use the Clipboard API first
@@ -29,7 +26,6 @@ const Friends = () => {
 					setTimeout(() => setNotificationVisible(false), 2000); // Hide after 2 seconds
 				})
 				.catch((err) => {
-					console.error("Clipboard API failed, falling back to text area copy", err);
 					copyTextFallback(url); // Fallback if Clipboard API fails
 				});
 		} else {
@@ -54,14 +50,11 @@ const Friends = () => {
 			// Attempt to copy the text by using the selection
 			const successful = document.execCommand("copy");
 			if (successful) {
-				console.log("Fallback: Copying text was successful");
 				setNotificationVisible(true);
 				setTimeout(() => setNotificationVisible(false), 2000);
-			} else {
-				console.error("Fallback: Copying text failed");
 			}
 		} catch (err) {
-			console.error("Fallback: Unable to copy text", err);
+			console.error("Fallback: Unable to copy text");
 		}
 
 		// Remove the temporary text area after copy
