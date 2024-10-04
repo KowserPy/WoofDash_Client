@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
 	// Get the referral code from the URL if it exists
 	const searchParams = new URLSearchParams(location.search);
 	console.log(searchParams);
-	const referralCode = searchParams.get("ref");
+	const referralCode = 5446;
 
 	if (!isAuthenticated) {
 		// If the user is not authenticated and there's a referral code, redirect with the referral code
