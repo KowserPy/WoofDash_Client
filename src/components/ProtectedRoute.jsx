@@ -4,6 +4,7 @@ import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
 	const location = useLocation();
+	console.log("location", location);
 	const queryParams = new URLSearchParams(location.search);
 	console.log("queryParams", queryParams);
 	const referralCode = queryParams.get("tgWebAppStartParam");
@@ -11,13 +12,13 @@ const ProtectedRoute = ({ children }) => {
 
 	const { isAuthenticated } = useSelector((state) => state.user);
 	// If user is not logged in, redirect to /startapp
-	if (!isAuthenticated) {
-		// If referral code exists, append it to the redirect URL
-		const redirectURL = referralCode ? `/startapp?startapp=${referralCode}` : "/startapp";
-		console.log(redirectURL);
+	// if (!isAuthenticated) {
+	// 	// If referral code exists, append it to the redirect URL
+	// 	const redirectURL = referralCode ? `/startapp?startapp=${referralCode}` : "/startapp";
+	// 	console.log(redirectURL);
 
-		return <Navigate to={redirectURL} />;
-	}
+	// 	return <Navigate to={redirectURL} />;
+	// }
 	return children;
 };
 
