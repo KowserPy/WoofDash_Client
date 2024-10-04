@@ -12,6 +12,7 @@ const ProtectedRoute = ({ children }) => {
 	if (!isAuthenticated) {
 		// If referral code exists, append it to the redirect URL
 		const redirectURL = referralCode ? `/startapp?startapp=${referralCode}` : "/startapp";
+		console.log(redirectURL);
 
 		return <Navigate to={redirectURL} />;
 	}

@@ -14,7 +14,7 @@ const Friends = () => {
 
 	const handleCopyLinkClick = () => {
 		const myReferralCode = user?.referralCode;
-		const url = `http://t.me/WoofDash_bot/start?startapp=${myReferralCode}`;
+		const url = `https://t.me/WoofDash_bot/start?startapp=${myReferralCode}`;
 
 		// Try to use the Clipboard API first
 		if (navigator.clipboard) {
