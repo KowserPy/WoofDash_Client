@@ -6,13 +6,14 @@ const ProtectedRoute = ({ children }) => {
 	const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
 	const referralCode = queryParams.get("tgWebAppStartParam");
+	console.log("referralCode", referralCode);
 
 	const { isAuthenticated } = useSelector((state) => state.user);
 
 	// If user is not logged in, redirect to /startapp
 	if (!isAuthenticated) {
 		// If referral code exists, append it to the redirect URL
-		const redirectURL = referralCode ? `/startapp?startapp=${referralCode}` : "/startapp";
+		const redirectURL = referralCode ? `/startapp?ref=${referralCode}` : "/startapp";
 
 		return <Navigate to={redirectURL} />;
 	}
