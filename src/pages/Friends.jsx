@@ -4,14 +4,16 @@ import { FaCopy } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 
 const Friends = () => {
+	const dispatch = useDispatch();
 	const [notificationVisible, setNotificationVisible] = useState(false);
+	const { user, friends, loading, error } = useSelector((state) => state.user);
 	const handleInviteClick = () => {
 		// Handle invite click logic here
 		alert("Invite sent!");
 	};
 
 	const handleCopyLinkClick = () => {
-		const myReferralCode = profile?.referralCode;
+		const myReferralCode = user?.referralCode;
 
 		const url = `http://t.me/WoofDash_bot/start?startapp=${myReferralCode}`;
 		navigator.clipboard.writeText(url);
