@@ -33,7 +33,8 @@ const GetStarted = () => {
 	// Handle sending data with the referral code
 	const handleSendData = async () => {
 		const queryParams = new URLSearchParams(location.search);
-		const referralCode = queryParams.get("startapp");
+		console.log(queryParams);
+		const referralCode = queryParams.get("tgWebAppStartParam");
 		console.log(referralCode);
 
 		// Merge referralCode into userData
