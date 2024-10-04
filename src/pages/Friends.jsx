@@ -13,7 +13,9 @@ const Friends = () => {
 	};
 
 	const handleCopyLinkClick = () => {
+		console.log(user);
 		const myReferralCode = user?.referralCode;
+		console.log(myReferralCode);
 
 		const url = `http://t.me/WoofDash_bot/start?startapp=${myReferralCode}`;
 		navigator.clipboard.writeText(url);
