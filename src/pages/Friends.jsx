@@ -18,9 +18,54 @@ const Friends = () => {
 		console.log(myReferralCode);
 
 		const url = `http://t.me/WoofDash_bot/start?startapp=${myReferralCode}`;
-		navigator.clipboard.writeText(url);
-		setNotificationVisible(true);
-		setTimeout(() => setNotificationVisible(false), 2000); // Hide after 2 seconds
+
+		// Try to use the Clipboard API first
+		if (navigator.clipboard) {
+			navigator.clipboard
+				.writeText(url)
+				.then(() => {
+					console.log("URL copied to clipboard using Clipboard API");
+					setNotificationVisible(true);
+					setTimeout(() => setNotificationVisible(false), 2000); // Hide after 2 seconds
+				})
+				.catch((err) => {
+					console.error("Clipboard API failed, falling back to text area copy", err);
+					copyTextFallback(url); // Fallback if Clipboard API fails
+				});
+		} else {
+			copyTextFallback(url); // Fallback if Clipboard API is not available
+		}
+	};
+
+	// Fallback function to copy text by creating a temporary text area
+	const copyTextFallback = (text) => {
+		const textArea = document.createElement("textarea");
+		textArea.value = text;
+
+		// Avoid scrolling to bottom of the page
+		textArea.style.position = "fixed";
+		textArea.style.left = "-99999px"; // Move out of view
+		document.body.appendChild(textArea);
+
+		textArea.focus();
+		textArea.select();
+
+		try {
+			// Attempt to copy the text by using the selection
+			const successful = document.execCommand("copy");
+			if (successful) {
+				console.log("Fallback: Copying text was successful");
+				setNotificationVisible(true);
+				setTimeout(() => setNotificationVisible(false), 2000);
+			} else {
+				console.error("Fallback: Copying text failed");
+			}
+		} catch (err) {
+			console.error("Fallback: Unable to copy text", err);
+		}
+
+		// Remove the temporary text area after copy
+		document.body.removeChild(textArea);
 	};
 
 	return (
