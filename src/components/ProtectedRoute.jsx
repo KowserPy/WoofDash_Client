@@ -14,10 +14,7 @@ const ProtectedRoute = ({ children }) => {
 		console.log(searchParams);
 		const referralCode = 5446;
 		if (referralCode) {
-			return <Navigate to={`/getStarted?ref=${referralCode}`} />;
-		} else {
-			// Otherwise, redirect to /startapp without the code
-			return <Navigate to="/getStarted" />;
+			console.log(location);
 		}
 	}
 
