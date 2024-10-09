@@ -5,6 +5,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { getFriendsList } from "../features/userSlice";
 import formatNumber from "../utils/formatNumber";
 
+// Utility function to generate a random color
+const getRandomColor = () => {
+	const colors = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500", "bg-purple-500", "bg-pink-500"];
+	return colors[Math.floor(Math.random() * colors.length)];
+};
+
 const Friends = () => {
 	const dispatch = useDispatch();
 	const [notificationVisible, setNotificationVisible] = useState(false);
@@ -120,11 +126,16 @@ const Friends = () => {
 					<ul className="space-y-4">
 						{friends.map((friend, index) => (
 							<li key={friend.telegramId} className="flex items-center justify-between">
-								<span>{friend.username}</span>
-								<span>
-									+{formatNumber(friend.totalPoints)}
-									WOOF
-								</span>
+								<div className="flex items-center space-x-3">
+									{/* Profile icon with first letter */}
+									<div
+										className={`flex items-center justify-center h-10 w-10 rounded-full text-white font-semibold ${getRandomColor()}`}
+									>
+										{friend.username.charAt(0).toUpperCase()}
+									</div>
+									<span>@{friend.username}</span>
+								</div>
+								<span>+{formatNumber(friend.totalPoints)} WOOF</span>
 							</li>
 						))}
 					</ul>
