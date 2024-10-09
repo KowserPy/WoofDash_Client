@@ -14,6 +14,7 @@ const Friends = () => {
 	};
 	// Fetch friends list when component mounts
 	useEffect(() => {
+		console.log("called");
 		dispatch(getFriendsList());
 	}, [dispatch]);
 

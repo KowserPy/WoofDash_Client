@@ -20,7 +20,12 @@ export const getProfileApi = async () => {
 	}
 };
 
+// Function to fetch user profile
 export const getFriendsListApi = async () => {
-	const response = await axios.get("/friends"); // Adjust the endpoint if needed
-	return response.data;
+	try {
+		const response = await axiosInstance.get("/friends");
+		return response.data;
+	} catch (error) {
+		throw error.response?.data?.message || "Something went wrong";
+	}
 };
