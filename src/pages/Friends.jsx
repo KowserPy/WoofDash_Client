@@ -118,11 +118,9 @@ const Friends = () => {
 					<h3 className="text-lg font-semibold mb-4">Your Friends</h3>
 					<ul className="space-y-4">
 						{friends.map((friend, index) => (
-							<li key={friend.id} className="flex items-center justify-between">
-								<span>
-									{index + 1}. {friend.name}
-								</span>
-								<span>+{friend.woofPoints} WOOF</span>
+							<li key={friend.telegramId} className="flex items-center justify-between">
+								<span>{friend.username}</span>
+								<span>+{friend.totalPoints} WOOF</span>
 							</li>
 						))}
 					</ul>

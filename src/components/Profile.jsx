@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"; // Import useDispatch and useSelector
 import { getProfile } from "../features/userSlice"; // Import your getProfile action
 import woofImg from "../assets/woof.png";
+import numeral from "numeral";
 
 const Profile = () => {
 	const dispatch = useDispatch(); // Initialize dispatch
@@ -27,7 +28,7 @@ const Profile = () => {
 				<div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg shadow-sm">
 					<span className="font-semibold">Task</span>
 					<div className="flex items-center gap-2">
-						<span>{taskPoints} WOOF</span>
+						<span>{numeral(taskPoints).format("0.0a")} WOOF</span>
 						<img src={woofImg} alt="Task Icon" className="w-6 h-6" />
 					</div>
 				</div>
