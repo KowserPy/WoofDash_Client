@@ -62,7 +62,7 @@ const Task = () => {
 							</div>
 							<div className="flex flex-col">
 								<p className="text-gray-800 text-xl font-semibold">{task.title}</p>
-								<span className="text-yellow-500 font-semibold">{task.points} WOOF</span>
+								<span className="text-yellow-500 font-semibold">{task.point} WOOF</span>
 							</div>
 						</li>
 					))}
