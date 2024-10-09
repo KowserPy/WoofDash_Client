@@ -107,6 +107,29 @@ const Friends = () => {
 					</button>
 				</div>
 			</div>
+
+			{/* Friends List */}
+			{isLoading ? (
+				<p>Loading friends...</p>
+			) : isError ? (
+				<p>Error: {message}</p>
+			) : friends.length > 0 ? (
+				<div className="bg-white rounded-md shadow-md p-5 mt-6 max-w-md w-full mx-auto">
+					<h3 className="text-lg font-semibold mb-4">Your Friends</h3>
+					<ul className="space-y-4">
+						{friends.map((friend, index) => (
+							<li key={friend.id} className="flex items-center justify-between">
+								<span>
+									{index + 1}. {friend.name}
+								</span>
+								<span>+{friend.woofPoints} WOOF</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			) : (
+				<p>No friends yet. Invite some!</p>
+			)}
 			{/* Notification Popup */}
 			{notificationVisible && (
 				<div className="absolute top-0 right-1/2 m-4 bg-green-500 text-white py-2 px-4 rounded-md shadow-lg">
