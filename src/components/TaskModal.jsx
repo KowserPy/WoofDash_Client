@@ -1,38 +1,94 @@
-// src/components/TaskModal.js
-
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useEffect } from "react";
+import { IoClose } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { completeATask } from "../features/task/TaskSlice"; // Ensure you have this import
 
 const TaskModal = ({ task, isOpen, onClose }) => {
-	if (!isOpen) return null;
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (isOpen) {
+			document.body.style.overflow = "hidden";
+		} else {
+			document.body.style.overflow = "auto";
+		}
+	}, [isOpen]);
+
+	const handleUrlOpen = async (task) => {
+		try {
+			if (task.taskCategory === "telegram") {
+				// For Telegram tasks, allow the user to open the link
+				window.Telegram.WebApp.openTelegramLink(task.completionURL);
+			} else {
+				// For other tasks, just open the link
+				window.Telegram.WebApp.openLink(task.completionURL, { try_instant_view: true });
+			}
+			// Dispatch action to mark task as complete
+			dispatch(completeATask(task.id)); // Assuming task has an 'id' property
+			toast.success("Task completed successfully!");
+		} catch (error) {
+			toast.error("Failed to open link. Please try again.");
+		}
+	};
+
+	if (!task) return null; // Prevent rendering if task is not available
 
 	return (
-		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-			<div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
-				<h2 className="text-xl font-bold mb-4">{task?.title}</h2>
-				<p className="text-gray-700 mb-4">{task?.description || "No description available."}</p>
-				<span className="text-yellow-500 font-semibold">{task?.point} WOOF</span>
-				<div className="mt-4 flex justify-end">
-					<button
-						className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
-						onClick={onClose}
-					>
-						Close
-					</button>
-				</div>
+		<div
+			className={`fixed inset-0 flex justify-center items-end z-50 ${
+				isOpen ? "pointer-events-auto" : "pointer-events-none"
+			}`}
+		>
+			{/* Background overlay */}
+			<div
+				className={`fixed inset-0 bg-black transition-opacity duration-300 ${
+					isOpen ? "opacity-50" : "opacity-0"
+				}`}
+				onClick={onClose}
+			></div>
+
+			{/* Modal content with height animation */}
+			<div
+				className={`relative bg-gray-100 rounded-t-3xl w-full transition-all duration-500 ease-in-out overflow-x-auto ${
+					isOpen ? "h-[70vh]" : "h-0"
+				}`}
+			>
+				{/* Modal content */}
+				{isOpen && (
+					<div className="p-6">
+						{/* Close button */}
+						<button
+							onClick={onClose}
+							className="absolute top-5 right-5 text-white hover:text-gray-700 font-bold bg-gray-400 w-8 h-8 flex items-center justify-center rounded-full"
+						>
+							<IoClose className="text-lg text-black" />
+						</button>
+						<div className="text-center mt-5">
+							<img
+								src="https://telegram.org/img/t_logo.png"
+								alt="Telegram"
+								className="w-16 h-16 mx-auto mb-2"
+							/>
+							<h2 className="text-2xl font-bold">{task.title}</h2>
+							<p className="text-yellow-500 font-semibold my-4 text-lg">+{task.point} WOOF</p>
+							<div className="mt-5 flex flex-col justify-center gap-3">
+								<button
+									className="w-full bg-blue-500 text-white rounded-lg py-2"
+									onClick={() => handleUrlOpen(task)}
+								>
+									Complete Task
+								</button>
+								<button className="w-full bg-gray-300 text-gray-700 rounded-lg py-2">
+									Check subscription
+								</button>
+							</div>
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	);
-};
-
-TaskModal.propTypes = {
-	task: PropTypes.shape({
-		title: PropTypes.string.isRequired,
-		description: PropTypes.string,
-		point: PropTypes.number.isRequired,
-	}).isRequired,
-	isOpen: PropTypes.bool.isRequired,
-	onClose: PropTypes.func.isRequired,
 };
 
 export default TaskModal;
