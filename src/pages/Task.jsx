@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -6,8 +6,22 @@ import { FaTelegramPlane, FaTwitter, FaYoutube } from "react-icons/fa"; // Icons
 import woofImg from "../assets/woof.png"; // Adjust path to your Woof image
 import { setupTelegramBackButton } from "../utils/telegramBackButton";
 import { getTasks } from "../features/taskSlice";
+import TaskModal from "../components/TaskModal";
 
 const Task = () => {
+	const [selectedTask, setSelectedTask] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
+	const openTask = (task) => {
+		setSelectedTask(task);
+		setIsModalOpen(true);
+	};
+
+	const closeModal = () => {
+		setIsModalOpen(false);
+		setSelectedTask(null);
+	};
+
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { tasks, isLoading, isError } = useSelector((state) => state.tasks);
@@ -21,12 +35,6 @@ const Task = () => {
 		// Fetch tasks when the component mounts
 		dispatch(getTasks());
 	}, [dispatch]);
-
-	// Handle opening a task (adjust based on your logic)
-	const openTask = (task) => {
-		console.log(`Opening task: ${task.title}`);
-		// Add your navigation or task action here
-	};
 
 	return (
 		<div className="bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col items-center p-5 gap-5 h-[calc(100vh-4rem)] hide-scrollbar overflow-y-scroll space-y-6 pb-20 relative">
@@ -70,6 +78,8 @@ const Task = () => {
 			) : (
 				<p className="text-gray-800 text-lg text-center">No tasks available.</p>
 			)}
+			{/* Modal for Task Details */}
+			<TaskModal task={selectedTask} isOpen={isModalOpen} onClose={closeModal} />
 		</div>
 	);
 };
