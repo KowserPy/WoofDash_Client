@@ -65,9 +65,9 @@ const Friends = () => {
 		<div className="bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col items-center p-5 gap-5 h-[calc(100vh-4rem)] hide-scrollbar overflow-y-scroll space-y-6 pb-20 relative">
 			<div className="flex justify-center items-center max-w-md w-full mx-auto">
 				<img src={woofImg} className="w-1/3" alt="WOOF" />
+				<p className="text-2xl text-center font-semibold">Invite frens</p>
+				<p className="text-2xl text-center font-semibold">and get more WOOF</p>
 			</div>
-			<p className="text-2xl text-center font-semibold">Invite frens</p>
-			<p className="text-2xl text-center font-semibold">and get more WOOF</p>
 			<div className="bg-white rounded-md shadow-md p-5 mt-6 max-w-md w-full mx-auto">
 				<div className="flex items-center gap-2 mb-4">
 					<img src={woofImg} className="w-1/6" alt="WOOF" />
