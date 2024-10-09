@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { createUserApi, getProfileApi } from "../api/userApi";
+import { createUserApi, getFriendsListApi, getProfileApi } from "../api/userApi";
 
 const initialState = {
 	user: JSON.parse(localStorage.getItem("user")) || null, // Get user from localStorage
@@ -7,6 +7,7 @@ const initialState = {
 	isError: false,
 	isLoading: false,
 	message: null,
+	friends: [],
 };
 
 // Async Thunk for user creation or login
@@ -32,6 +33,17 @@ export const getProfile = createAsyncThunk("user/getProfile", async (_, { reject
 	}
 });
 
+// Async Thunk to fetch friends list
+export const getFriendsList = createAsyncThunk("user/getFriendsList", async (_, { rejectWithValue }) => {
+	try {
+		const data = await getFriendsListApi(); // API call to get friends list
+		console.log(data);
+		return data; // Return the friends list
+	} catch (error) {
+		return rejectWithValue(error);
+	}
+});
+
 const userSlice = createSlice({
 	name: "user",
 	initialState,
@@ -42,6 +54,7 @@ const userSlice = createSlice({
 			state.isError = false;
 			state.isLoading = false;
 			state.message = "Successfully logged out";
+			state.friends = [];
 			localStorage.removeItem("user"); // Clear user from localStorage
 		},
 	},
@@ -75,6 +88,22 @@ const userSlice = createSlice({
 				state.isError = false;
 			})
 			.addCase(getProfile.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isError = true;
+				state.message = action.payload;
+			})
+			// Handle fetching friends list
+			.addCase(getFriendsList.pending, (state) => {
+				state.isLoading = true;
+				state.isError = false;
+				state.message = null;
+			})
+			.addCase(getFriendsList.fulfilled, (state, action) => {
+				state.friends = action.payload; // Set friends list to state
+				state.isLoading = false;
+				state.isError = false;
+			})
+			.addCase(getFriendsList.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isError = true;
 				state.message = action.payload;

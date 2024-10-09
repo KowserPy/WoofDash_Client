@@ -19,3 +19,8 @@ export const getProfileApi = async () => {
 		throw error.response?.data?.message || "Something went wrong";
 	}
 };
+
+export const getFriendsListApi = async () => {
+	const response = await axios.get("/friends"); // Adjust the endpoint if needed
+	return response.data;
+};

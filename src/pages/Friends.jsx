@@ -2,13 +2,19 @@ import React, { useState, useEffect } from "react";
 import woofImg from "../assets/woof.png";
 import { FaCopy } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
+import { getFriendsList } from "../features/userSlice";
 
 const Friends = () => {
 	const dispatch = useDispatch();
 	const [notificationVisible, setNotificationVisible] = useState(false);
-	const { user, friends, loading, error } = useSelector((state) => state.user);
+	const { user, friends, isLoading, isError, message } = useSelector((state) => state.user);
+
+	// Fetch friends list when component mounts
+	useEffect(() => {
+		dispatch(getFriendsList());
+	}, [dispatch]);
+
 	const handleInviteClick = () => {
-		// Handle invite click logic here
 		alert("Invite sent!");
 	};
 
@@ -16,48 +22,37 @@ const Friends = () => {
 		const myReferralCode = user?.referralCode;
 		const url = `https://t.me/WoofDash_bot/start?startapp=${myReferralCode}`;
 
-		// Try to use the Clipboard API first
 		if (navigator.clipboard) {
 			navigator.clipboard
 				.writeText(url)
 				.then(() => {
-					console.log("URL copied to clipboard using Clipboard API");
 					setNotificationVisible(true);
-					setTimeout(() => setNotificationVisible(false), 2000); // Hide after 2 seconds
+					setTimeout(() => setNotificationVisible(false), 2000);
 				})
-				.catch((err) => {
-					copyTextFallback(url); // Fallback if Clipboard API fails
-				});
+				.catch(() => copyTextFallback(url));
 		} else {
-			copyTextFallback(url); // Fallback if Clipboard API is not available
+			copyTextFallback(url);
 		}
 	};
 
-	// Fallback function to copy text by creating a temporary text area
 	const copyTextFallback = (text) => {
 		const textArea = document.createElement("textarea");
 		textArea.value = text;
-
-		// Avoid scrolling to bottom of the page
 		textArea.style.position = "fixed";
-		textArea.style.left = "-99999px"; // Move out of view
+		textArea.style.left = "-99999px";
 		document.body.appendChild(textArea);
 
 		textArea.focus();
 		textArea.select();
 
 		try {
-			// Attempt to copy the text by using the selection
-			const successful = document.execCommand("copy");
-			if (successful) {
-				setNotificationVisible(true);
-				setTimeout(() => setNotificationVisible(false), 2000);
-			}
+			document.execCommand("copy");
+			setNotificationVisible(true);
+			setTimeout(() => setNotificationVisible(false), 2000);
 		} catch (err) {
 			console.error("Fallback: Unable to copy text");
 		}
 
-		// Remove the temporary text area after copy
 		document.body.removeChild(textArea);
 	};
 
@@ -83,7 +78,6 @@ const Friends = () => {
 						<p className="text-sm text-gray-600">+3000 to you and +1000 to your friend</p>
 					</div>
 				</div>
-				{/* Buttons */}
 				<div className="flex justify-between gap-4">
 					<button
 						onClick={handleInviteClick}
@@ -101,7 +95,28 @@ const Friends = () => {
 					</button>
 				</div>
 			</div>
-			{/* Notification Popup */}
+			{/* Friends List */}
+			{isLoading ? (
+				<p>Loading friends...</p>
+			) : isError ? (
+				<p>Error: {message}</p>
+			) : friends.length > 0 ? (
+				<div className="bg-white rounded-md shadow-md p-5 mt-6 max-w-md w-full mx-auto">
+					<h3 className="text-lg font-semibold mb-4">Your Friends</h3>
+					<ul className="space-y-4">
+						{friends.map((friend, index) => (
+							<li key={friend.id} className="flex items-center justify-between">
+								<span>
+									{index + 1}. {friend.name}
+								</span>
+								<span>+{friend.woofPoints} WOOF</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			) : (
+				<p>No friends yet. Invite some!</p>
+			)}
 			{notificationVisible && (
 				<div className="absolute top-0 right-1/2 m-4 bg-green-500 text-white py-2 px-4 rounded-md shadow-lg">
 					<p>Copied to clipboard!</p>
