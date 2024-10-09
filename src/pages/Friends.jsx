@@ -3,6 +3,7 @@ import woofImg from "../assets/woof.png";
 import { FaCopy } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { getFriendsList } from "../features/userSlice";
+import formatNumber from "../utils/formatNumber";
 
 const Friends = () => {
 	const dispatch = useDispatch();
@@ -120,7 +121,10 @@ const Friends = () => {
 						{friends.map((friend, index) => (
 							<li key={friend.telegramId} className="flex items-center justify-between">
 								<span>{friend.username}</span>
-								<span>+{friend.totalPoints} WOOF</span>
+								<span>
+									+{formatNumber(friend.totalPoints)}
+									WOOF
+								</span>
 							</li>
 						))}
 					</ul>
