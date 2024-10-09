@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "../features/userSlice";
+import tasksReducer from "../features/taskSlice";
 import { setupAxiosInterceptors } from "../api/axiosInstance";
 
 const store = configureStore({
 	reducer: {
 		user: userReducer,
+		tasks: tasksReducer,
 		// Add other reducers here
 	},
 });

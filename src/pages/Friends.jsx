@@ -133,7 +133,7 @@ const Friends = () => {
 									>
 										{friend.username.charAt(0).toUpperCase()}
 									</div>
-									<span>@{friend.username}</span>
+									<span>{friend.username}</span>
 								</div>
 								<span>+{formatNumber(friend.totalPoints)} WOOF</span>
 							</li>
