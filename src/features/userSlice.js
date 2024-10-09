@@ -37,8 +37,7 @@ export const getProfile = createAsyncThunk("user/getProfile", async (_, { reject
 export const getFriendsList = createAsyncThunk("user/getFriendsList", async (_, { rejectWithValue }) => {
 	try {
 		const data = await getFriendsListApi(); // API call to get friends list
-		console.log(data);
-		return data; // Return the friends list
+		return data.data; // Return the friends list
 	} catch (error) {
 		return rejectWithValue(error);
 	}
