@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { completeaTASK } from "../features/taskSlice";
 
 const TaskModal = ({ task, isOpen, onClose }) => {
 	const dispatch = useDispatch();
+	const { isLoading, isError, message } = useSelector((state) => state.tasks);
+	const [isVerified, setIsVerified] = useState(false); // State to manage verification status
 
 	useEffect(() => {
 		if (isOpen) {
@@ -14,6 +17,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 		}
 	}, [isOpen]);
 
+	// Handle URL open logic
 	const handleUrlOpen = async (task) => {
 		if (task.taskCategory === "telegram") {
 			window.Telegram.WebApp.openTelegramLink(task.completionURL);
@@ -22,8 +26,17 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 		}
 	};
 
+	// Task completion logic
 	const completeTaskHandler = async (task) => {
-		console.log("ok");
+		const resultAction = await dispatch(completeaTASK(task._id));
+
+		// Handling success and error
+		if (completeaTASK.fulfilled.match(resultAction)) {
+			toast.success("Task completed successfully!");
+			setIsVerified(true); // Set task as verified
+		} else if (completeaTASK.rejected.match(resultAction)) {
+			toast.error(message || "Task completion failed. Please try again.");
+		}
 	};
 
 	return (
@@ -72,12 +85,17 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 									Subscribe
 								</button>
 								<button
-									className="w-full bg-gray-300 text-gray-700 rounded-lg py-2"
+									className={`w-full bg-gray-300 text-gray-700 rounded-lg py-2 ${
+										isVerified ? "opacity-50 cursor-not-allowed" : ""
+									}`}
 									onClick={() => completeTaskHandler(task)}
+									disabled={isVerified || isLoading}
 								>
-									Check subscription
+									{isLoading ? "Checking..." : "Check subscription"}
 								</button>
 							</div>
+							{/* Show verification message */}
+							{isVerified && <p className="text-green-500 mt-3">Subscription verified successfully!</p>}
 						</div>
 					</div>
 				)}
