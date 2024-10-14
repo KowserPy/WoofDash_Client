@@ -27,16 +27,8 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 	};
 
 	// Task completion logic
-	const completeTaskHandler = async (task) => {
-		const resultAction = await dispatch(completeaTASK(task._id));
-
-		// Handling success and error
-		if (completeaTASK.fulfilled.match(resultAction)) {
-			toast.success("Task completed successfully!");
-			setIsVerified(true); // Set task as verified
-		} else if (completeaTASK.rejected.match(resultAction)) {
-			toast.error(message || "Task completion failed. Please try again.");
-		}
+	const completeTaskHandler = (task) => {
+		dispatch(completeaTASK(task._id));
 	};
 
 	return (
