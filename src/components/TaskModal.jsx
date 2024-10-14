@@ -89,7 +89,6 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 										isVerified ? "opacity-50 cursor-not-allowed" : ""
 									}`}
 									onClick={() => completeTaskHandler(task)}
-									disabled={isVerified || isLoading}
 								>
 									{isLoading ? "Checking..." : "Check subscription"}
 								</button>
