@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import axios from "axios";
-
-const botToken = import.meta.env.VITE_BOT_TOKEN;
 
 const TaskModal = ({ task, isOpen, onClose }) => {
 	const dispatch = useDispatch();
