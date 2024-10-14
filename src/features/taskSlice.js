@@ -25,6 +25,7 @@ export const completeaTASK = createAsyncThunk("tasks/complete", async (taskId, {
 		const data = await completeATaskApi(taskId);
 		return data;
 	} catch (error) {
+		console.log(error);
 		// If there is an error, return a rejected value with an error message
 		return rejectWithValue(error.response ? error.response.data.message : error.message);
 	}

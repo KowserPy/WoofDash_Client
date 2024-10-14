@@ -16,6 +16,7 @@ export const completeATaskApi = async () => {
 		const response = await axiosInstance.post("/tasks/complete", { taskId });
 		return response.data;
 	} catch (error) {
+		console.log(error);
 		throw error.response?.data?.message || "Something went wrong";
 	}
 };
