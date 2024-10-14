@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import axios from "axios";
 import { completeATask } from "../features/task/TaskSlice"; // Ensure you have this import
+
+const botToken = import.meta.env.VITE_BOT_TOKEN;
 
 const TaskModal = ({ task, isOpen, onClose }) => {
 	const dispatch = useDispatch();
@@ -16,23 +19,16 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 	}, [isOpen]);
 
 	const handleUrlOpen = async (task) => {
-		try {
-			if (task.taskCategory === "telegram") {
-				// For Telegram tasks, allow the user to open the link
-				window.Telegram.WebApp.openTelegramLink(task.completionURL);
-			} else {
-				// For other tasks, just open the link
-				window.Telegram.WebApp.openLink(task.completionURL, { try_instant_view: true });
-			}
-			// Dispatch action to mark task as complete
-			dispatch(completeATask(task.id)); // Assuming task has an 'id' property
-			toast.success("Task completed successfully!");
-		} catch (error) {
-			toast.error("Failed to open link. Please try again.");
+		if (task.taskCategory === "telegram") {
+			window.Telegram.WebApp.openTelegramLink(task.completionURL);
+		} else {
+			window.Telegram.WebApp.openLink(task.completionURL, { try_instant_view: true });
 		}
 	};
 
-	if (!task) return null; // Prevent rendering if task is not available
+	const completeTaskHandler = async (task) => {
+		console.log("ok");
+	};
 
 	return (
 		<div
@@ -50,7 +46,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 
 			{/* Modal content with height animation */}
 			<div
-				className={`relative bg-gray-100 rounded-t-3xl w-full transition-all duration-500 ease-in-out overflow-x-auto ${
+				className={`relative bg-gray-100 rounded-t-3xl  w-full transition-all duration-500 ease-in-out overflow-x-auto ${
 					isOpen ? "h-[70vh]" : "h-0"
 				}`}
 			>
@@ -62,7 +58,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 							onClick={onClose}
 							className="absolute top-5 right-5 text-white hover:text-gray-700 font-bold bg-gray-400 w-8 h-8 flex items-center justify-center rounded-full"
 						>
-							<IoClose className="text-lg text-black" />
+							<IoClose className=" text-lg text-black" />
 						</button>
 						<div className="text-center mt-5">
 							<img
@@ -77,9 +73,12 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 									className="w-full bg-blue-500 text-white rounded-lg py-2"
 									onClick={() => handleUrlOpen(task)}
 								>
-									Complete Task
+									Subscribe
 								</button>
-								<button className="w-full bg-gray-300 text-gray-700 rounded-lg py-2">
+								<button
+									className="w-full bg-gray-300 text-gray-700 rounded-lg py-2"
+									onClick={() => completeTaskHandler(task)}
+								>
 									Check subscription
 								</button>
 							</div>
