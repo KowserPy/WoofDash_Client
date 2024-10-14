@@ -3,7 +3,6 @@ import { IoClose } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { completeATask } from "../features/task/TaskSlice"; // Ensure you have this import
 
 const botToken = import.meta.env.VITE_BOT_TOKEN;
 
